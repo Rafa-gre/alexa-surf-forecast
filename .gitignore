@@ -1,0 +1,6 @@
+ask-resources.json
+.ask
+.vscode
+.env
+deploy.sh
+lambda/node_modules

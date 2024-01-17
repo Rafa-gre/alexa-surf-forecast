@@ -1,0 +1,87 @@
+{
+  "interactionModel": {
+    "languageModel": {
+      "intents": [
+        {
+          "name": "AMAZON.CancelIntent",
+          "samples": []
+        },
+        {
+          "name": "AMAZON.HelpIntent",
+          "samples": []
+        },
+        {
+          "name": "AMAZON.StopIntent",
+          "samples": []
+        },
+        {
+          "slots": [
+            {
+              "name": "period",
+              "values": [
+                {
+                    "name": {
+                        "value": "amanhã"
+                    }
+                },
+                {
+                    "name": {
+                        "value": "hoje"
+                    }
+                },
+                {
+                    "name": {
+                        "value": "fim de semana"
+                    }
+                },
+                {
+                    "name": {
+                        "value": "esta semana"
+                    }
+                },
+                {
+                    "name": {
+                        "value": "semana que vem"
+                    }
+                }
+            ]
+            },
+            {
+              "name": "local",
+              "type": "AMAZON.City"
+            }
+          ],
+          "name": "SurfForecastIntent",
+          "samples": [
+            "Quais são as melhores praias para surfar em {local}",
+            "Diga-me sobre as ondas em {local}",
+            "Quais são as condições das ondas em {local}",
+            "Como serão as ondas no fim de semana em {local}",
+            "Pode me dar a previsão de ondas para amanhã em {local}",
+            "Como está o surf em {local} hoje",
+            "Diga-me como estão as ondas em {local} agora.",
+            "Qual é a previsão de ondas para hoje em {local}",
+            "Como estão as ondas",
+            "Qual a previsão das ondas",
+            "Qual é a previsão de ondas para {period} em {local}",
+            "Diga-me como estão as ondas em {local} {period}",
+            "Como está o surf em {local} {period}",
+            "Pode me dar a previsão de ondas para {period} em {local}",
+            "Como serão as ondas no {period} em {local}",
+            "Quais são as condições das ondas em {local} {period}",
+            "Diga-me sobre as ondas em {local} {period}",
+            "Quais são as melhores praias para surfar em {região} {period}",
+            "Como estão as ondas para iniciantes em {local} {period}",
+            "Conte-me sobre as condições do mar em {local} {period}"
+          ]
+        },
+        {
+          "name": "AMAZON.NavigateHomeIntent",
+          "samples": []
+        }
+      ],
+      "types": [],
+      "invocationName": "previsão surf"
+    }
+  }
+}
