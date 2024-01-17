@@ -43,10 +43,7 @@
           "summary": "Sample Short Description"
         }
       },
-      "testingInstructions": "Sample Testing Instructions.",
-      "hooks": {
-        "deploy": "bash ./deploy.sh"
-    }
+      "testingInstructions": "Sample Testing Instructions."
     }
   }
 }
