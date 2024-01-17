@@ -18,12 +18,13 @@
           "slots": [
             {
               "name": "period",
+              "type":"Period",
               "values": [
-                { "name": "amanhã" },
-                { "name": "hoje" },
-                { "name": "fim de semana" },
-                { "name": "esta semana" },
-                { "name": "semana que vem" }
+                { "name": "Amanhã" },
+                { "name": "Hoje" },
+                { "name": "Fim de semana" },
+                { "name": "Esta semana" },
+                { "name": "Semana que vem" }
               ]
             },
             {
