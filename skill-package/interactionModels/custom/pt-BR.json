@@ -19,32 +19,12 @@
             {
               "name": "period",
               "values": [
-                {
-                    "name": {
-                        "value": "amanhã"
-                    }
-                },
-                {
-                    "name": {
-                        "value": "hoje"
-                    }
-                },
-                {
-                    "name": {
-                        "value": "fim de semana"
-                    }
-                },
-                {
-                    "name": {
-                        "value": "esta semana"
-                    }
-                },
-                {
-                    "name": {
-                        "value": "semana que vem"
-                    }
-                }
-            ]
+                { "name": "amanhã" },
+                { "name": "hoje" },
+                { "name": "fim de semana" },
+                { "name": "esta semana" },
+                { "name": "semana que vem" }
+              ]
             },
             {
               "name": "local",
@@ -70,7 +50,7 @@
             "Como serão as ondas no {period} em {local}",
             "Quais são as condições das ondas em {local} {period}",
             "Diga-me sobre as ondas em {local} {period}",
-            "Quais são as melhores praias para surfar em {região} {period}",
+            "Quais são as melhores praias para surfar em {local} {period}",
             "Como estão as ondas para iniciantes em {local} {period}",
             "Conte-me sobre as condições do mar em {local} {period}"
           ]
