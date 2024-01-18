@@ -30,6 +30,7 @@ interface TimeInterval {
   end: Date;
 }
 export async function getWeatherData(lat: number, lon: number, interval: TimeInterval): Promise<HourlyData> {
+console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA, lat, lon)
   const params = {
     latitude: lat,
     longitude: lon,
