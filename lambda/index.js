@@ -10,7 +10,7 @@ const LaunchRequestHandler = {
         return Alexa.getRequestType(handlerInput.requestEnvelope) === 'LaunchRequest';
     },
     handle(handlerInput) {
-        const speakOutput = 'Welcome, you can say Hello or Help. Which would you like to try?';
+        const speakOutput = "E aí, surfista! Bem-vindo à Previsão de Ondas. Quer saber como estão as ondas? Pergunte-me sobre o período e local, como 'Como estão as ondas amanhã em Maresias?'";
 
         return handlerInput.responseBuilder
             .speak(speakOutput)
@@ -19,13 +19,16 @@ const LaunchRequestHandler = {
     }
 };
 
-const HelloWorldIntentHandler = {
+const SurfForecastIntentHandler = {
     canHandle(handlerInput) {
         return Alexa.getRequestType(handlerInput.requestEnvelope) === 'IntentRequest'
-            && Alexa.getIntentName(handlerInput.requestEnvelope) === 'HelloWorldIntent';
+            && Alexa.getIntentName(handlerInput.requestEnvelope) === 'SurfForecastIntent';
     },
     handle(handlerInput) {
-        const speakOutput = 'Hello World!';
+        const periodSlotValue = handlerInput.requestEnvelope.request.intent.slots['period'].value || 'Hoje';
+        const localSlotValue = handlerInput.requestEnvelope.request.intent.slots['local'].value || getAlexaDeviceLocation(handlerInput);
+
+        const speakOutput = generateForecastSpeech(periodSlotValue, localSlotValue);
 
         return handlerInput.responseBuilder
             .speak(speakOutput)
@@ -40,7 +43,11 @@ const HelpIntentHandler = {
             && Alexa.getIntentName(handlerInput.requestEnvelope) === 'AMAZON.HelpIntent';
     },
     handle(handlerInput) {
-        const speakOutput = 'You can say hello to me! How can I help?';
+        const speakOutput = "Claro, surfista! Aqui estão algumas coisas que você pode perguntar:\n\n" +
+        " - 'Como estão as ondas amanhã em Maresias?'\n" +
+        " - 'Qual a previsão do surf no fim de semana em Itamambuca?'\n" +
+        " - 'Diga-me sobre as condições do mar para hoje em Itacaré.'\n\n" +
+        "Lembre-se, estou aqui para te ajudar a obter as informações mais recentes sobre as ondas. Só perguntar e bora surfar!";;
 
         return handlerInput.responseBuilder
             .speak(speakOutput)
@@ -56,7 +63,7 @@ const CancelAndStopIntentHandler = {
                 || Alexa.getIntentName(handlerInput.requestEnvelope) === 'AMAZON.StopIntent');
     },
     handle(handlerInput) {
-        const speakOutput = 'Goodbye!';
+        const speakOutput = "Valeu, brou! Se precisar de mais informações sobre as ondas, é só perguntar. Até mais e boas ondas!";
 
         return handlerInput.responseBuilder
             .speak(speakOutput)
@@ -74,11 +81,11 @@ const FallbackIntentHandler = {
             && Alexa.getIntentName(handlerInput.requestEnvelope) === 'AMAZON.FallbackIntent';
     },
     handle(handlerInput) {
-        const speakOutput = 'Sorry, I don\'t know about that. Please try again.';
+        const speakOutput = "Desculpe, não consegui entender completamente sua pergunta sobre as ondas. Que tal tentar novamente ou perguntar de uma maneira diferente? Estou aqui para ajudar você a pegar as melhores ondas!";
 
         return handlerInput.responseBuilder
             .speak(speakOutput)
-            .reprompt(speakOutput)
+            .reprompt("Posso ajudar com mais alguma coisa?")
             .getResponse();
     }
 };
@@ -144,7 +151,7 @@ const ErrorHandler = {
 exports.handler = Alexa.SkillBuilders.custom()
     .addRequestHandlers(
         LaunchRequestHandler,
-        HelloWorldIntentHandler,
+        SurfForecastIntentHandler,
         HelpIntentHandler,
         CancelAndStopIntentHandler,
         FallbackIntentHandler,

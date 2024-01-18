@@ -12,7 +12,7 @@ const openai = new OpenAI({apiKey, organization: orgId});
 
 
 
-export async function OpenAiApi(content: string) {
+export async function openAiApi(content: string): Promise<string | null> {
 
   const prompt = `
   Quero que crie um texto com linguagem divertida e específica do surfista para o seguinte array de dados: ${content} , voce pode separar a previsão por turno manha e tarde. A direção do vento e das ondas deve ser em pontos cardinais.`;
