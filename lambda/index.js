@@ -4,8 +4,8 @@
  * session persistence, api calls, and more.
  * */
 const Alexa = require('ask-sdk-core');
-const { generateForecastSpeech } = require('./services');
-const { getAlexaDeviceLocation } = require('./util');
+const { generateForecastSpeech } = require('./dist/services');
+
 
 const LaunchRequestHandler = {
     canHandle(handlerInput) {
