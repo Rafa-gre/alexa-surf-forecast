@@ -4,6 +4,8 @@
  * session persistence, api calls, and more.
  * */
 const Alexa = require('ask-sdk-core');
+const { generateForecastSpeech } = require('./services/generateForecastSpeech');
+const { getAlexaDeviceLocation } = require('./util');
 
 const LaunchRequestHandler = {
     canHandle(handlerInput) {
@@ -26,7 +28,7 @@ const SurfForecastIntentHandler = {
     },
     handle(handlerInput) {
         const periodSlotValue = handlerInput.requestEnvelope.request.intent.slots['period'].value || 'Hoje';
-        const localSlotValue = handlerInput.requestEnvelope.request.intent.slots['local'].value || getAlexaDeviceLocation(handlerInput);
+        const localSlotValue = handlerInput.requestEnvelope.request.intent.slots['local'].value ;
 
         const speakOutput = generateForecastSpeech(periodSlotValue, localSlotValue);
 
