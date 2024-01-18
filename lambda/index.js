@@ -27,11 +27,13 @@ const SurfForecastIntentHandler = {
         return Alexa.getRequestType(handlerInput.requestEnvelope) === 'IntentRequest'
             && Alexa.getIntentName(handlerInput.requestEnvelope) === 'SurfForecastIntent';
     },
-    handle(handlerInput) {
+    async handle(handlerInput) {
         const periodSlotValue = handlerInput.requestEnvelope.request.intent.slots['period'].value || 'Hoje';
         const localSlotValue = handlerInput.requestEnvelope.request.intent.slots['local'].value ;
 
-        const speakOutput = generateForecastSpeech(periodSlotValue, localSlotValue);
+        const speakOutput = await generateForecastSpeech(periodSlotValue, localSlotValue);
+
+        console.log("OUTPUT",speakOutput);
 
         return handlerInput.responseBuilder
             .speak(speakOutput)

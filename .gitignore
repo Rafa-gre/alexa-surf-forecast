@@ -3,3 +3,4 @@ ask-resources.json
 .vscode
 deploy.sh
 lambda/node_modules
+.zip

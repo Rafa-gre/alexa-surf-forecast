@@ -11,7 +11,6 @@ async function getWeatherData(lat, lon, interval) {
         "start_date": interval.start.toISOString().slice(0, 10),
         "end_date": interval.end.toISOString().slice(0, 10),
     };
-    console.log("PARAMS", params);
     try {
         const url = "https://api.open-meteo.com/v1/gfs";
         const responses = await (0, openmeteo_1.fetchWeatherApi)(url, params);
@@ -19,9 +18,9 @@ async function getWeatherData(lat, lon, interval) {
             throw new Error("No weather data found");
         }
         const response = responses[0];
+        console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAA", response);
         const utcOffsetSeconds = response.utcOffsetSeconds();
         const hourly = response.hourly();
-        console.log("BBBBBBBBBBBBBBBBBB", hourly.interval());
         return {
             time: range(Number(hourly.time()), Number(hourly.timeEnd()), 10800).map((t) => new Date((t + utcOffsetSeconds) * 1000)),
             temperature2m: hourly.variables(0).valuesArray(),
@@ -31,7 +30,7 @@ async function getWeatherData(lat, lon, interval) {
         };
     }
     catch (error) {
-        throw new Error(error);
+        throw new Error(`WEATHER ERROR: ${error}`);
     }
 }
 exports.getWeatherData = getWeatherData;
@@ -58,7 +57,7 @@ async function getWavesData(lat, lon, interval) {
         };
     }
     catch (error) {
-        throw new Error(error);
+        throw new Error(`WAVES ERROR: ${error}`);
     }
 }
 exports.getWavesData = getWavesData;
