@@ -47,7 +47,7 @@ const HelpIntentHandler = {
         " - 'Como estão as ondas amanhã em Maresias?'\n" +
         " - 'Qual a previsão do surf no fim de semana em Itamambuca?'\n" +
         " - 'Diga-me sobre as condições do mar para hoje em Itacaré.'\n\n" +
-        "Lembre-se, estou aqui para te ajudar a obter as informações mais recentes sobre as ondas. Só perguntar e bora surfar!";;
+        "Lembre-se, estou aqui para te ajudar a obter as informações mais recentes sobre as ondas. Só perguntar e bora surfar!";
 
         return handlerInput.responseBuilder
             .speak(speakOutput)
