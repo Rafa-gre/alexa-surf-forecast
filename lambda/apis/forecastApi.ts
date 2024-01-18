@@ -1,4 +1,5 @@
-import { fetchWeatherApi } from 'openmeteo';
+import axios from "axios";
+
 
 interface HourlyData {
   time: Date[];
@@ -43,13 +44,13 @@ console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", lat, lon)
   };
 try {
   const url = "https://api.open-meteo.com/v1/gfs";
-  const responses = await fetchWeatherApi(url, params);
+  const {data} = await axios.get(url, {params});
 
-  if (responses.length === 0) {
+  if (data.length === 0) {
     throw new Error("No weather data found");
   }
 
-  const response = responses[0];
+  const response = data[0];
   const utcOffsetSeconds = response.utcOffsetSeconds();
   const hourly = response.hourly()!;
 
@@ -83,8 +84,8 @@ export async function getWavesData(lat: number, lon: number, interval: TimeInter
   const url = "https://marine-api.open-meteo.com/v1/marine";
 
   try {
-    const responses = await fetchWeatherApi(url, params);
-    const response = responses[0];
+    const {data} = await axios.get(url, {params});
+    const response = data[0];
     const utcOffsetSeconds = response.utcOffsetSeconds();
     const hourly = response.hourly()!;
 

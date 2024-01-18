@@ -1,7 +1,10 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getForecastData = exports.forecastDataMapper = exports.getWavesData = exports.getWeatherData = void 0;
-const openmeteo_1 = require("openmeteo");
+const axios_1 = __importDefault(require("axios"));
 async function getWeatherData(lat, lon, interval) {
     console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", lat, lon);
     const params = {
@@ -16,11 +19,11 @@ async function getWeatherData(lat, lon, interval) {
     };
     try {
         const url = "https://api.open-meteo.com/v1/gfs";
-        const responses = await (0, openmeteo_1.fetchWeatherApi)(url, params);
-        if (responses.length === 0) {
+        const { data } = await axios_1.default.get(url, { params });
+        if (data.length === 0) {
             throw new Error("No weather data found");
         }
-        const response = responses[0];
+        const response = data[0];
         const utcOffsetSeconds = response.utcOffsetSeconds();
         const hourly = response.hourly();
         console.log("BBBBBBBBBBBBBBBBBB", hourly.interval());
@@ -49,8 +52,8 @@ async function getWavesData(lat, lon, interval) {
     };
     const url = "https://marine-api.open-meteo.com/v1/marine";
     try {
-        const responses = await (0, openmeteo_1.fetchWeatherApi)(url, params);
-        const response = responses[0];
+        const { data } = await axios_1.default.get(url, { params });
+        const response = data[0];
         const utcOffsetSeconds = response.utcOffsetSeconds();
         const hourly = response.hourly();
         return {
