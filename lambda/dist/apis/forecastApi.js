@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.getForecastData = exports.forecastDataMapper = exports.getWavesData = exports.getWeatherData = void 0;
 const openmeteo_1 = require("openmeteo");
 async function getWeatherData(lat, lon, interval) {
+    console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", lat, lon);
     const params = {
         latitude: lat,
         longitude: lon,
@@ -31,8 +32,8 @@ async function getWeatherData(lat, lon, interval) {
             windDirection80m: hourly.variables(3).valuesArray(),
         };
     }
-    catch (_a) {
-        throw new Error("No weather data found");
+    catch (error) {
+        throw new Error(error);
     }
 }
 exports.getWeatherData = getWeatherData;

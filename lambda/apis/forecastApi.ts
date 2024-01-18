@@ -30,7 +30,7 @@ interface TimeInterval {
   end: Date;
 }
 export async function getWeatherData(lat: number, lon: number, interval: TimeInterval): Promise<HourlyData> {
-console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA, lat, lon)
+console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", lat, lon)
   const params = {
     latitude: lat,
     longitude: lon,
@@ -64,8 +64,8 @@ try {
     windSpeed10m: hourly.variables(2)!.valuesArray()!,
     windDirection80m: hourly.variables(3)!.valuesArray()!,
   };
-} catch {
-    throw new Error("No weather data found");
+} catch(error:any) {
+    throw new Error(error);
   }
 }
 
