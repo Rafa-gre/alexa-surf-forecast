@@ -1,12 +1,8 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getForecastData = exports.forecastDataMapper = exports.getWavesData = exports.getWeatherData = void 0;
-const axios_1 = __importDefault(require("axios"));
+const openmeteo_1 = require("openmeteo");
 async function getWeatherData(lat, lon, interval) {
-    console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", lat, lon);
     const params = {
         latitude: lat,
         longitude: lon,
@@ -14,16 +10,15 @@ async function getWeatherData(lat, lon, interval) {
         timezone: "auto",
         "start_date": interval.start.toISOString().slice(0, 10),
         "end_date": interval.end.toISOString().slice(0, 10),
-        "start_hour": "06:00",
-        "end_hour": "19:00",
     };
+    console.log("PARAMS", params);
     try {
         const url = "https://api.open-meteo.com/v1/gfs";
-        const { data } = await axios_1.default.get(url, { params });
-        if (data.length === 0) {
+        const responses = await (0, openmeteo_1.fetchWeatherApi)(url, params);
+        if (responses.length === 0) {
             throw new Error("No weather data found");
         }
-        const response = data[0];
+        const response = responses[0];
         const utcOffsetSeconds = response.utcOffsetSeconds();
         const hourly = response.hourly();
         console.log("BBBBBBBBBBBBBBBBBB", hourly.interval());
@@ -52,8 +47,8 @@ async function getWavesData(lat, lon, interval) {
     };
     const url = "https://marine-api.open-meteo.com/v1/marine";
     try {
-        const { data } = await axios_1.default.get(url, { params });
-        const response = data[0];
+        const responses = await (0, openmeteo_1.fetchWeatherApi)(url, params);
+        const response = responses[0];
         const utcOffsetSeconds = response.utcOffsetSeconds();
         const hourly = response.hourly();
         return {
@@ -62,8 +57,8 @@ async function getWavesData(lat, lon, interval) {
             wavePeriod: hourly.variables(2).valuesArray(),
         };
     }
-    catch (_a) {
-        throw new Error("No waves data found");
+    catch (error) {
+        throw new Error(error);
     }
 }
 exports.getWavesData = getWavesData;
