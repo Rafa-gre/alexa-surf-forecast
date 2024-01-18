@@ -12,6 +12,7 @@ const LaunchRequestHandler = {
         return Alexa.getRequestType(handlerInput.requestEnvelope) === 'LaunchRequest';
     },
     handle(handlerInput) {
+        console.log("ENVS VAR",process.env);
         const speakOutput = "E aí, surfista! Bem-vindo à Previsão de Ondas. Quer saber como estão as ondas? Pergunte-me sobre o período e local, como 'Como estão as ondas amanhã em Maresias?'";
 
         return handlerInput.responseBuilder
