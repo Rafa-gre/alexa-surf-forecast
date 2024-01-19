@@ -4,3 +4,4 @@ ask-resources.json
 deploy.sh
 lambda/node_modules
 .zip
+.env

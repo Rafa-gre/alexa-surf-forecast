@@ -10,7 +10,7 @@ const dateRanges = {
     'semana que vem': (today) => ({ start: (0, date_fns_1.startOfWeek)((0, date_fns_1.addDays)(today, 7)), end: (0, date_fns_1.endOfWeek)((0, date_fns_1.addDays)(today, 7)) }),
 };
 function calculateDateRange(period) {
-    const today = new Date();
+    const today = (0, date_fns_1.subHours)(new Date(), 3); //timezone ;
     const lowerCasePeriod = period.toLowerCase();
     if (dateRanges.hasOwnProperty(lowerCasePeriod)) {
         return dateRanges[lowerCasePeriod](today);

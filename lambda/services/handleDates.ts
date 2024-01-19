@@ -1,4 +1,4 @@
-import { addDays, startOfWeek, endOfWeek } from 'date-fns';
+import { addDays, startOfWeek, endOfWeek, subHours } from 'date-fns';
 
 interface DateRange {
   start: Date;
@@ -14,7 +14,7 @@ const dateRanges: Record<string, (today: Date) => DateRange> = {
 };
 
 export function calculateDateRange(period: string): DateRange {
-  const today = new Date();
+  const today =  subHours(new Date(), 3) //timezone ;
   const lowerCasePeriod = period.toLowerCase();
 
   if (dateRanges.hasOwnProperty(lowerCasePeriod)) {
