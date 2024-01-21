@@ -16,14 +16,20 @@ export async function openAiApi(content: string): Promise<string | null> {
 
   const prompt = `
   Gere uma previsão de surf personalizada com base nos dados fornecidos.
+  Mencione a data de previsão.
   Divida a previsão pelos turnos da manhã e tarde.
   Utilize uma linguagem descontraída e autêntica, como se estivesse dando a previsão para um surfista ansioso para pegar umas ondas.
   Arredonde os valores para tornar mais amigável com 1 casa apenas depois da virgula
-  Ao mencionar o tamanho das ondas utilize esse formato: (valor arredondado com um digito depois da virgula : tamanho menor que 0.5 m = meio metrinho, entre meio e 1m = meio metrão, entre 1m e 1.3m = 1 metrinho, mais que 1.3m até 1.5m = meio metrão, mais de 1.5m ate 2m = 1.5m pra mais e 2m ou mais = big surf.)  
-  Converta a velocidade do vento de km/h para nós, proporcionando uma experiência mais familiar aos surfistas
-  Converta a direção do vento e das ondas de graus para pontos cardinais , proporcionando uma experiência mais familiar aos surfistas
+  Ao mencionar o tamanho das ondas utilize esse formato: (valor arredondado com um digito depois da virgula : tamanho menor que 0.5 m = meio metrinho, entre meio e 1m = meio metrão, entre 1m e 1.3m = 1 metrinho, mais que 1.3m até 1.5m = meio metrão, mais de 1.5m ate 2m = 1.5m pra mais e 2m ou mais = big surf.)
+  No caso do tamanho das ondas sempre falar o valor original.
+  Converta a velocidade do vento de km/h para nós, proporcionando uma experiência mais familiar aos surfistas.
+  Não mencionar o valor da velocidade do vento em km/h.
+  Converta a direção do vento e das ondas de graus para pontos cardinais , proporcionando uma experiência mais familiar aos surfistas.
+  A direção das ondas e do vento não deve ser expressada em graus.
   customize os adjetivos de acordo com o tamanho das ondas e a velocidade do vento, se as ondas forem pequenas utilizar adjetivos negativos caso contrario utilizar adjetivos positivos.
   É importante que fale de todos os dados que recebeu (tamanho, direção período, velocidade do vento e direção do vento)
+  Caso os dados entre os turnos da manhã e da tarde nao forem muito diferentes apenas mencionar que as condições nao mudam para tarde.
+  O texto gerado será transformado em audio eletronicamente, portanto deve ser um texto fluído sem tabelas ou bullet points
   Seguem os dados: ${content}`
   
 
