@@ -5,8 +5,8 @@ const date_fns_1 = require("date-fns");
 const dateRanges = {
     'amanhã': (today) => ({ start: (0, date_fns_1.addDays)(today, 1), end: (0, date_fns_1.addDays)(today, 1) }),
     'hoje': (today) => ({ start: today, end: today }),
-    'fim de semana': (today) => ({ start: (0, date_fns_1.startOfWeek)(today, { weekStartsOn: 6 }), end: (0, date_fns_1.endOfWeek)(today, { weekStartsOn: 6 }) }),
-    'esta semana': (today) => ({ start: (0, date_fns_1.startOfWeek)(today), end: (0, date_fns_1.endOfWeek)(today) }),
+    'fim de semana': (today) => ({ start: (0, date_fns_1.nextSaturday)(today), end: (0, date_fns_1.nextSunday)(today) }),
+    'esta semana': (today) => ({ start: today, end: (0, date_fns_1.endOfWeek)(today) }),
     'semana que vem': (today) => ({ start: (0, date_fns_1.startOfWeek)((0, date_fns_1.addDays)(today, 7)), end: (0, date_fns_1.endOfWeek)((0, date_fns_1.addDays)(today, 7)) }),
 };
 function calculateDateRange(period) {

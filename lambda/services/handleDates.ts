@@ -1,4 +1,4 @@
-import { addDays, startOfWeek, endOfWeek, subHours } from 'date-fns';
+import { addDays, startOfWeek, endOfWeek, subHours, nextSaturday, nextSunday } from 'date-fns';
 
 interface DateRange {
   start: Date;
@@ -8,8 +8,8 @@ interface DateRange {
 const dateRanges: Record<string, (today: Date) => DateRange> = {
   'amanhã': (today) => ({ start: addDays(today, 1), end: addDays(today, 1) }),
   'hoje': (today) => ({ start: today, end: today }),
-  'fim de semana': (today) => ({ start: startOfWeek(today, { weekStartsOn: 6 }), end: endOfWeek(today, { weekStartsOn: 6 }) }),
-  'esta semana': (today) => ({ start: startOfWeek(today), end: endOfWeek(today) }),
+  'fim de semana': (today) => ({ start: nextSaturday(today), end: nextSunday(today) }),
+  'esta semana': (today) => ({ start: today, end: endOfWeek(today) }),
   'semana que vem': (today) => ({ start: startOfWeek(addDays(today, 7)), end: endOfWeek(addDays(today, 7)) }),
 };
 

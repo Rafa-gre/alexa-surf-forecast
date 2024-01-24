@@ -15,21 +15,18 @@ const openai = new OpenAI({apiKey, organization: orgId});
 export async function openAiApi(content: string): Promise<string | null> {
 
   const prompt = `
-  Gere uma previsão de surf personalizada com base nos dados fornecidos.
-  Mencione a data de previsão.
-  Divida a previsão pelos turnos da manhã e tarde.
+  Gere uma previsão de surf personalizada com base nos dados fornecidos de no máximo 3000 tokens.
+  Mencione o período da previsão (hoje, amanhã, fim de semana, esta semana, semana que vem) sendo hoje = ${new Date().toISOString()}.
+  Caso os dados forem referentes a mais de um dia, divida a previsão por dias.
+  Os dados de previsão do vento são dados em nós (knots).
+  Se os dados fornecidos forem referentes a somente um dia, divida a previsão pelos turnos da manhã e tarde.
   Utilize uma linguagem descontraída e autêntica, como se estivesse dando a previsão para um surfista ansioso para pegar umas ondas.
-  Arredonde os valores para tornar mais amigável com 1 casa apenas depois da virgula
-  Ao mencionar o tamanho das ondas utilize esse formato: (valor arredondado com um digito depois da virgula : tamanho menor que 0.5 m = meio metrinho, entre meio e 1m = meio metrão, entre 1m e 1.3m = 1 metrinho, mais que 1.3m até 1.5m = meio metrão, mais de 1.5m ate 2m = 1.5m pra mais e 2m ou mais = big surf.)
-  No caso do tamanho das ondas sempre falar o valor original.
-  Converta a velocidade do vento de km/h para nós, proporcionando uma experiência mais familiar aos surfistas.
-  Não mencionar o valor da velocidade do vento em km/h.
-  Converta a direção do vento e das ondas de graus para pontos cardinais , proporcionando uma experiência mais familiar aos surfistas.
-  A direção das ondas e do vento não deve ser expressada em graus.
+  Arredonde os valores para tornar mais amigável com 1 casa apenas depois da virgula.
+  No Brasil as ondas variam entre 0.2m e 2.5m então ondas acima de 1m já são consideradas com um bom tamanho pro surf.
   customize os adjetivos de acordo com o tamanho das ondas e a velocidade do vento, se as ondas forem pequenas utilizar adjetivos negativos caso contrario utilizar adjetivos positivos.
   É importante que fale de todos os dados que recebeu (tamanho, direção período, velocidade do vento e direção do vento)
   Caso os dados entre os turnos da manhã e da tarde nao forem muito diferentes apenas mencionar que as condições nao mudam para tarde.
-  O texto gerado será transformado em audio eletronicamente, portanto deve ser um texto fluído sem tabelas ou bullet points
+  O texto gerado será transformado em audio eletronicamente, portanto deve ser um texto fluído sem tabelas ou bullet points.
   Seguem os dados: ${content}`
   
 
@@ -44,91 +41,91 @@ export async function openAiApi(content: string): Promise<string | null> {
   return chatCompletion.choices[0].message?.content
 }
 
-const data = [
-  {
-    time: '2024-01-17T00:00:00.000Z',
-    temperature: 26.924501419067383,
-    precipitationProbability: 0,
-    windSpeed: 5.804825305938721,
-    windDirection: 330.2552185058594,
-    waveHeight: 0.20000000298023224,
-    waveDirection: 127,
-    wavePeriod: 7.199999809265137
-  },
-  {
-    time: '2024-01-17T03:00:00.000Z',
-    temperature: 26.524499893188477,
-    precipitationProbability: 0,
-    windSpeed: 6.369049549102783,
-    windDirection: 325.71307373046875,
-    waveHeight: 0.20000000298023224,
-    waveDirection: 128,
-    wavePeriod: 7.349999904632568
-  },
-  {
-    time: '2024-01-17T06:00:00.000Z',
-    temperature: 26.774499893188477,
-    precipitationProbability: 0,
-    windSpeed: 6.193674087524414,
-    windDirection: 313.53125,
-    waveHeight: 0.20000000298023224,
-    waveDirection: 129,
-    wavePeriod: 7.599999904632568
-  },
-  {
-    time: '2024-01-17T09:00:00.000Z',
-    temperature: 26.324501037597656,
-    precipitationProbability: 0,
-    windSpeed: 7.289444923400879,
-    windDirection: 312.27362060546875,
-    waveHeight: 0.20000000298023224,
-    waveDirection: 130,
-    wavePeriod: 7.800000190734863
-  },
-  {
-    time: '2024-01-17T12:00:00.000Z',
-    temperature: 26.074501037597656,
-    precipitationProbability: 0,
-    windSpeed: 7.199999809265137,
-    windDirection: 311.1858215332031,
-    waveHeight: 0.20000000298023224,
-    waveDirection: 132,
-    wavePeriod: 8
-  },
-  {
-    time: '2024-01-17T15:00:00.000Z',
-    temperature: 25.924501419067383,
-    precipitationProbability: 0,
-    windSpeed: 6.792466163635254,
-    windDirection: 308.6598205566406,
-    waveHeight: 0.20000000298023224,
-    waveDirection: 133,
-    wavePeriod: 8.199999809265137
-  },
-  {
-    time: '2024-01-17T18:00:00.000Z',
-    temperature: 25.774499893188477,
-    precipitationProbability: 0,
-    windSpeed: 6.877789497375488,
-    windDirection: 321.3401794433594,
-    waveHeight: 0.20000000298023224,
-    waveDirection: 135,
-    wavePeriod: 8.399999618530273
-  },
-  {
-    time: '2024-01-17T21:00:00.000Z',
-    temperature: 27.274499893188477,
-    precipitationProbability: 0,
-    windSpeed: 7.145795822143555,
-    windDirection: 320.82635498046875,
-    waveHeight: 0.20000000298023224,
-    waveDirection: 136,
-    wavePeriod: 8.550000190734863
-  }
-]
-async function teste() {
-  const result = await openAiApi(JSON.stringify(data));
-  console.log(result);
-}
+// const data = [
+//   {
+//     time: '2024-01-17T00:00:00.000Z',
+//     temperature: 26.924501419067383,
+//     precipitationProbability: 0,
+//     windSpeed: 5.804825305938721,
+//     windDirection: 330.2552185058594,
+//     waveHeight: 0.20000000298023224,
+//     waveDirection: 127,
+//     wavePeriod: 7.199999809265137
+//   },
+//   {
+//     time: '2024-01-17T03:00:00.000Z',
+//     temperature: 26.524499893188477,
+//     precipitationProbability: 0,
+//     windSpeed: 6.369049549102783,
+//     windDirection: 325.71307373046875,
+//     waveHeight: 0.20000000298023224,
+//     waveDirection: 128,
+//     wavePeriod: 7.349999904632568
+//   },
+//   {
+//     time: '2024-01-17T06:00:00.000Z',
+//     temperature: 26.774499893188477,
+//     precipitationProbability: 0,
+//     windSpeed: 6.193674087524414,
+//     windDirection: 313.53125,
+//     waveHeight: 0.20000000298023224,
+//     waveDirection: 129,
+//     wavePeriod: 7.599999904632568
+//   },
+//   {
+//     time: '2024-01-17T09:00:00.000Z',
+//     temperature: 26.324501037597656,
+//     precipitationProbability: 0,
+//     windSpeed: 7.289444923400879,
+//     windDirection: 312.27362060546875,
+//     waveHeight: 0.20000000298023224,
+//     waveDirection: 130,
+//     wavePeriod: 7.800000190734863
+//   },
+//   {
+//     time: '2024-01-17T12:00:00.000Z',
+//     temperature: 26.074501037597656,
+//     precipitationProbability: 0,
+//     windSpeed: 7.199999809265137,
+//     windDirection: 311.1858215332031,
+//     waveHeight: 0.20000000298023224,
+//     waveDirection: 132,
+//     wavePeriod: 8
+//   },
+//   {
+//     time: '2024-01-17T15:00:00.000Z',
+//     temperature: 25.924501419067383,
+//     precipitationProbability: 0,
+//     windSpeed: 6.792466163635254,
+//     windDirection: 308.6598205566406,
+//     waveHeight: 0.20000000298023224,
+//     waveDirection: 133,
+//     wavePeriod: 8.199999809265137
+//   },
+//   {
+//     time: '2024-01-17T18:00:00.000Z',
+//     temperature: 25.774499893188477,
+//     precipitationProbability: 0,
+//     windSpeed: 6.877789497375488,
+//     windDirection: 321.3401794433594,
+//     waveHeight: 0.20000000298023224,
+//     waveDirection: 135,
+//     wavePeriod: 8.399999618530273
+//   },
+//   {
+//     time: '2024-01-17T21:00:00.000Z',
+//     temperature: 27.274499893188477,
+//     precipitationProbability: 0,
+//     windSpeed: 7.145795822143555,
+//     windDirection: 320.82635498046875,
+//     waveHeight: 0.20000000298023224,
+//     waveDirection: 136,
+//     wavePeriod: 8.550000190734863
+//   }
+// ]
+// async function teste() {
+//   const result = await openAiApi(JSON.stringify(data));
+//   console.log(result);
+// }
 
-teste()
+// teste()

@@ -1,0 +1,16 @@
+service: surfForecastSkill
+
+frameworkVersion: '3'
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+  region: us-east-1
+
+functions:
+  surfForecastSkill:
+    handler: index.handler
+    memorySize: 128
+    timeout: 60
+    events:
+      - alexaSkill: amzn1.ask.skill.867d7bc6-ce3d-401d-9f16-31c7c1d9fa99

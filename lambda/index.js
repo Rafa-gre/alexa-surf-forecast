@@ -12,8 +12,7 @@ const LaunchRequestHandler = {
         return Alexa.getRequestType(handlerInput.requestEnvelope) === 'LaunchRequest';
     },
     handle(handlerInput) {
-        console.log("ENVS VAR",process.env);
-        const speakOutput = "E aí, surfista! Bem-vindo à Previsão de Ondas. Quer saber como estão as ondas? Pergunte-me sobre o período e local, como 'Como estão as ondas amanhã em Maresias?'";
+        const speakOutput = "E aí surfista! Bem-vindo à Previsão de Ondas. Quer saber como estão as ondas? Pergunte-me sobre o período e local, como 'Como estão as ondas amanhã em Maresias?'";
 
         return handlerInput.responseBuilder
             .speak(speakOutput)
@@ -31,14 +30,37 @@ const SurfForecastIntentHandler = {
         const periodSlotValue = handlerInput.requestEnvelope.request.intent.slots['period'].value || 'Hoje';
         const localSlotValue = handlerInput.requestEnvelope.request.intent.slots['local'].value ;
 
-        const speakOutput = await generateForecastSpeech(periodSlotValue, localSlotValue);
+        // Adicionando mensagem de espera ao responseBuilder
+        handlerInput.responseBuilder.addDirective({
+            type: 'VoicePlayer.Speak',
+            speech: 'Estou verificando as últimas informações do mar para você. Aguarde um momento...',
+        });
 
-        console.log("OUTPUT",speakOutput);
+        try {
+            let speech;
 
-        return handlerInput.responseBuilder
-            .speak(speakOutput)
-            //.reprompt('add a reprompt if you want to keep the session open for the user to respond')
-            .getResponse();
+            if (periodSlotValue === 'esta semana' || periodSlotValue === 'semana que vem') {
+                speech = await generateForecastSpeech(periodSlotValue, localSlotValue, 'daily');
+            } else {
+                speech = await generateForecastSpeech(periodSlotValue, localSlotValue, 'hourly');
+            }
+
+            console.log("OUTPUT", speech);
+
+            // Atualizando a mensagem de espera com a resposta real
+            handlerInput.responseBuilder.addDirective({
+                type: 'VoicePlayer.Speak',
+                speech: speech,
+            });
+
+            return handlerInput.responseBuilder.getResponse();
+        } catch (error) {
+            console.error('Erro na chamada à API da OpenAI:', error);
+
+            // Se houver um erro, você pode fornecer uma resposta alternativa
+            const errorMessage = 'Desculpe, ocorreu um problema ao obter a previsão do mar. Por favor, tente novamente mais tarde.';
+            return handlerInput.responseBuilder.speak(errorMessage).getResponse();
+        }
     }
 };
 
@@ -138,7 +160,7 @@ const ErrorHandler = {
         return true;
     },
     handle(handlerInput, error) {
-        const speakOutput = 'Sorry, I had trouble doing what you asked. Please try again.';
+        const speakOutput = 'Xiiii, deu ruim. Tente novamente!';
         console.log(`~~~~ Error handled: ${JSON.stringify(error)}`);
 
         return handlerInput.responseBuilder
