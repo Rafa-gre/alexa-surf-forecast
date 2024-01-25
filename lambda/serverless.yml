@@ -4,9 +4,12 @@ frameworkVersion: '3'
 
 provider:
   name: aws
+  deploymentMethod: direct
+  stage: dev
   runtime: nodejs18.x
   region: us-east-1
-
+  deploymentBucket:
+    name: surfforecastskill-dev-serverlessdeploymentbucket-rd665w3ynkso
 functions:
   surfForecastSkill:
     handler: index.handler
