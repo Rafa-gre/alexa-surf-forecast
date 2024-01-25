@@ -17,6 +17,9 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: '18'
+          
+      - name: Change dir to lambda
+        run: cd lambda    
 
       - name: Install dependencies
         run: npm install
