@@ -31,10 +31,7 @@ const SurfForecastIntentHandler = {
         const localSlotValue = handlerInput.requestEnvelope.request.intent.slots['local'].value ;
 
         // Adicionando mensagem de espera ao responseBuilder
-        handlerInput.responseBuilder.addDirective({
-            type: 'VoicePlayer.Speak',
-            speech: 'Estou verificando as últimas informações do mar para você. Aguarde um momento...',
-        });
+        handlerInput.responseBuilder.speak('Por favor, aguarde. Estou obtendo a previsão do mar.').withShouldEndSession(false);
 
         try {
             let speech;
@@ -48,10 +45,7 @@ const SurfForecastIntentHandler = {
             console.log("OUTPUT", speech);
 
             // Atualizando a mensagem de espera com a resposta real
-            handlerInput.responseBuilder.addDirective({
-                type: 'VoicePlayer.Speak',
-                speech: speech,
-            });
+            handlerInput.responseBuilder.speak(speech);
 
             return handlerInput.responseBuilder.getResponse();
         } catch (error) {
