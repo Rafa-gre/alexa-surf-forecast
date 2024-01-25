@@ -30,10 +30,17 @@ const SurfForecastIntentHandler = {
         const periodSlotValue = handlerInput.requestEnvelope.request.intent.slots['period'].value || 'Hoje';
         const localSlotValue = handlerInput.requestEnvelope.request.intent.slots['local'].value ;
 
-        // Adicionando mensagem de espera ao responseBuilder
-        handlerInput.responseBuilder.speak('Por favor, aguarde. Estou obtendo a previsão do mar.').withShouldEndSession(false);
-
         try {
+            // Adicionando mensagem de espera ao Progressive Response
+            const progressiveResponse = handlerInput.responseBuilder
+                .addDirective({
+                    type: 'VoicePlayer.Speak',
+                    speech: 'Estou verificando as últimas informações do mar para você. Aguarde um momento...',
+                });
+
+            // Enviar Progressive Response
+            await handlerInput.context.succeed(progressiveResponse);
+
             let speech;
 
             if (periodSlotValue === 'esta semana' || periodSlotValue === 'semana que vem') {
@@ -45,7 +52,10 @@ const SurfForecastIntentHandler = {
             console.log("OUTPUT", speech);
 
             // Atualizando a mensagem de espera com a resposta real
-            handlerInput.responseBuilder.speak(speech);
+            handlerInput.responseBuilder.addDirective({
+                type: 'VoicePlayer.Speak',
+                speech: speech,
+            });
 
             return handlerInput.responseBuilder.getResponse();
         } catch (error) {
@@ -53,10 +63,19 @@ const SurfForecastIntentHandler = {
 
             // Se houver um erro, você pode fornecer uma resposta alternativa
             const errorMessage = 'Desculpe, ocorreu um problema ao obter a previsão do mar. Por favor, tente novamente mais tarde.';
-            return handlerInput.responseBuilder.speak(errorMessage).getResponse();
+
+            // Atualizando a mensagem de espera com a resposta de erro
+            handlerInput.responseBuilder.addDirective({
+                type: 'VoicePlayer.Speak',
+                speech: errorMessage,
+            });
+
+            return handlerInput.responseBuilder.getResponse();
         }
     }
 };
+
+
 
 const HelpIntentHandler = {
     canHandle(handlerInput) {
