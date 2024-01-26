@@ -1,6 +1,6 @@
 # Surf Forecast Alexa Skill
 
-![Surf Forecast](url_da_imagem)
+
 
 ## Descrição
 
