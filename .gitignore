@@ -6,5 +6,5 @@ lambda/node_modules
 .zip
 .env
 test
-dist
+lambda/dist
 .serverless
