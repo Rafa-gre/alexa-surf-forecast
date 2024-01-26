@@ -179,7 +179,7 @@ function callDirectiveService(handlerInput) {
       },
       directive: {
         type: "VoicePlayer.Speak",
-        speech: "Aguarde enquanto eu preparo o a previsão de ondas.",
+        speech: "Fala Surfer, Estou checando a previsão, Aguarde...",
       },
     };
     // send directive
