@@ -164,14 +164,11 @@ const ErrorHandler = {
 };
 
 function callDirectiveService(handlerInput) {
-    // Call Alexa Directive Service.
-    console.log("AAAAAAAAAAAAAAA", handlerInput);
     const requestEnvelope = handlerInput.requestEnvelope;
     
     const requestId = requestEnvelope.request.requestId;
     const directiveServiceClient = handlerInput.serviceClientFactory.getDirectiveServiceClient();
   
-    // build the progressive response directive
     const directive = {
       header: {
         requestId,
@@ -182,8 +179,6 @@ function callDirectiveService(handlerInput) {
         speech: "Fala Surfer, Estou checando a previsão, Aguarde...",
       },
     };
-    // send directive
-    console.log("DIRECTIVE",directiveServiceClient)
     return directiveServiceClient.enqueue(directive);
   }
 
