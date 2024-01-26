@@ -42,7 +42,6 @@ try {
 
   if (periodicity === "daily") {
     const daily = response.daily()!;
-    console.log("DAILY DATA", periodicity, daily)
     return {
       time: range(Number(daily.time()), Number(daily.timeEnd()), 86400).map(
         (t) => new Date((t + utcOffsetSeconds) * 1000)

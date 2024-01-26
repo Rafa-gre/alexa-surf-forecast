@@ -3,7 +3,7 @@
  * Please visit https://alexa.design/cookbook for additional examples on implementing slots, dialog management,
  * session persistence, api calls, and more.
  * */
-const Alexa = require('ask-sdk-core');
+const Alexa = require('ask-sdk');
 const { generateForecastSpeech } = require('./dist/services/generateForecastSpeech');
 
 
@@ -165,17 +165,17 @@ const ErrorHandler = {
 
 function callDirectiveService(handlerInput) {
     // Call Alexa Directive Service.
+    console.log("AAAAAAAAAAAAAAA", handlerInput);
     const requestEnvelope = handlerInput.requestEnvelope;
-    const directiveServiceClient = handlerInput.serviceClientFactory.getDirectiveServiceClient();
-  
+    
     const requestId = requestEnvelope.request.requestId;
-    const endpoint = requestEnvelope.context.System.apiEndpoint;
-    const token = requestEnvelope.context.System.apiAccessToken;
+    const directiveServiceClient = handlerInput.serviceClientFactory.getDirectiveServiceClient();
   
     // build the progressive response directive
     const directive = {
       header: {
         requestId,
+    
       },
       directive: {
         type: "VoicePlayer.Speak",
@@ -183,7 +183,8 @@ function callDirectiveService(handlerInput) {
       },
     };
     // send directive
-    return directiveServiceClient.enqueue(directive, endpoint, token);
+    console.log("DIRECTIVE",directiveServiceClient)
+    return directiveServiceClient.enqueue(directive);
   }
 
 /**
@@ -202,5 +203,6 @@ exports.handler = Alexa.SkillBuilders.custom()
         IntentReflectorHandler)
     .addErrorHandlers(
         ErrorHandler)
+    .withApiClient(new Alexa.DefaultApiClient())
     .withCustomUserAgent('sample/hello-world/v1.2')
     .lambda();

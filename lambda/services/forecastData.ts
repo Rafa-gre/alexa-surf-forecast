@@ -42,10 +42,8 @@ export function forecastDataMapper(weatherData: WeatherData, wavesData: WavesDat
 }
 
 export async function getForecastData(lat: number, lon: number, interval: TimeInterval, periodicity: Periodicity): Promise<ProcessedData[]> {
-  console.log("ENTRADA", periodicity)
   const weatherData = await getWeatherData(lat, lon, interval, periodicity);
   const wavesData = await getWavesData(lat, lon, interval, periodicity);
-  console.log("SAIDA", forecastDataMapper(weatherData, wavesData))
   return forecastDataMapper(weatherData, wavesData);
 }
 
