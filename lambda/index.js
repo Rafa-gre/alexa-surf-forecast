@@ -29,19 +29,15 @@ const SurfForecastIntentHandler = {
     async handle(handlerInput) {
         const periodSlotValue = handlerInput.requestEnvelope.request.intent.slots['period'].value || 'Hoje';
         const localSlotValue = handlerInput.requestEnvelope.request.intent.slots['local'].value ;
+        
+        try {
+            await callDirectiveService(handlerInput);
+          } catch (err) {
+            console.log("error : " + err);
+          }
 
         try {
-            // Adicionando mensagem de espera ao Progressive Response
-            const progressiveResponse = handlerInput.responseBuilder
-                .addDirective({
-                    type: 'VoicePlayer.Speak',
-                    speech: 'Estou verificando as últimas informações do mar para você. Aguarde um momento...',
-                });
-
-            // Enviar Progressive Response
-            await handlerInput.context.succeed(progressiveResponse);
-
-            let speech;
+            let speech 
 
             if (periodSlotValue === 'esta semana' || periodSlotValue === 'semana que vem') {
                 speech = await generateForecastSpeech(periodSlotValue, localSlotValue, 'daily');
@@ -49,33 +45,17 @@ const SurfForecastIntentHandler = {
                 speech = await generateForecastSpeech(periodSlotValue, localSlotValue, 'hourly');
             }
 
-            console.log("OUTPUT", speech);
-
-            // Atualizando a mensagem de espera com a resposta real
-            handlerInput.responseBuilder.addDirective({
-                type: 'VoicePlayer.Speak',
-                speech: speech,
-            });
-
-            return handlerInput.responseBuilder.getResponse();
-        } catch (error) {
-            console.error('Erro na chamada à API da OpenAI:', error);
-
-            // Se houver um erro, você pode fornecer uma resposta alternativa
-            const errorMessage = 'Desculpe, ocorreu um problema ao obter a previsão do mar. Por favor, tente novamente mais tarde.';
-
-            // Atualizando a mensagem de espera com a resposta de erro
-            handlerInput.responseBuilder.addDirective({
-                type: 'VoicePlayer.Speak',
-                speech: errorMessage,
-            });
-
-            return handlerInput.responseBuilder.getResponse();
-        }
+            return handlerInput.responseBuilder
+                .speak(speech)
+                .getResponse();
+        } catch (err) {
+            console.log("error : " + err);
+            return handlerInput.responseBuilder
+                .speak("Xiii, deu ruim! Tente novamente!")
+                .getResponse();
+        }    
     }
 };
-
-
 
 const HelpIntentHandler = {
     canHandle(handlerInput) {
@@ -182,6 +162,29 @@ const ErrorHandler = {
             .getResponse();
     }
 };
+
+function callDirectiveService(handlerInput) {
+    // Call Alexa Directive Service.
+    const requestEnvelope = handlerInput.requestEnvelope;
+    const directiveServiceClient = handlerInput.serviceClientFactory.getDirectiveServiceClient();
+  
+    const requestId = requestEnvelope.request.requestId;
+    const endpoint = requestEnvelope.context.System.apiEndpoint;
+    const token = requestEnvelope.context.System.apiAccessToken;
+  
+    // build the progressive response directive
+    const directive = {
+      header: {
+        requestId,
+      },
+      directive: {
+        type: "VoicePlayer.Speak",
+        speech: "Aguarde enquanto eu preparo o a previsão de ondas.",
+      },
+    };
+    // send directive
+    return directiveServiceClient.enqueue(directive, endpoint, token);
+  }
 
 /**
  * This handler acts as the entry point for your skill, routing all request and response
