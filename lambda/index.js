@@ -27,8 +27,9 @@ const SurfForecastIntentHandler = {
             && Alexa.getIntentName(handlerInput.requestEnvelope) === 'SurfForecastIntent';
     },
     async handle(handlerInput) {
+
         const periodSlotValue = handlerInput.requestEnvelope.request.intent.slots['period'].value || 'Hoje';
-        const localSlotValue = handlerInput.requestEnvelope.request.intent.slots['local'].value ;
+        const localSlotValue = handlerInput.requestEnvelope.request.intent.slots['local'].value
         
         try {
             await callDirectiveService(handlerInput);
