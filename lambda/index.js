@@ -27,6 +27,7 @@ const SurfForecastIntentHandler = {
             && Alexa.getIntentName(handlerInput.requestEnvelope) === 'SurfForecastIntent';
     },
     async handle(handlerInput) {
+        console.log("LOCAL", handlerInput.requestEnvelope.request.intent.slots['local'].value)
 
         const periodSlotValue = handlerInput.requestEnvelope.request.intent.slots['period'].value || 'Hoje';
         const localSlotValue = handlerInput.requestEnvelope.request.intent.slots['local'].value
@@ -45,7 +46,7 @@ const SurfForecastIntentHandler = {
             } else {
                 speech = await generateForecastSpeech(periodSlotValue, localSlotValue, 'hourly');
             }
-
+            console.log("SPEECH",speech)
             return handlerInput.responseBuilder
                 .speak(speech)
                 .getResponse();
@@ -173,13 +174,13 @@ function callDirectiveService(handlerInput) {
     const directive = {
       header: {
         requestId,
-    
       },
       directive: {
         type: "VoicePlayer.Speak",
         speech: "Fala Surfer, Estou checando a previsão, Aguarde...",
       },
     };
+    console.log("DIRECTIVE END", directive)
     return directiveServiceClient.enqueue(directive);
   }
 
