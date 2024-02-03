@@ -15,6 +15,7 @@ const dateRanges: Record<string, (today: Date) => DateRange> = {
 
 export function calculateDateRange(period: string): DateRange {
   const today =  subHours(new Date(), 3) //timezone ;
+  console.log("TODAY",today)
   const lowerCasePeriod = period.toLowerCase();
 
   if (dateRanges.hasOwnProperty(lowerCasePeriod)) {

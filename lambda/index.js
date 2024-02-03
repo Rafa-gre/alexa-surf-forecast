@@ -169,6 +169,11 @@ function callDirectiveService(handlerInput) {
     const requestEnvelope = handlerInput.requestEnvelope;
     
     const requestId = requestEnvelope.request.requestId;
+    const token = requestEnvelope.context.System.apiAccessToken
+    const endpoint = requestEnvelope.context.System.apiEndpoint
+    console.log("TOKEN", token)
+    console.log("ENDPOINT", endpoint)
+    console.log("REQUEST ID", requestId)
     const directiveServiceClient = handlerInput.serviceClientFactory.getDirectiveServiceClient();
   
     const directive = {
@@ -181,7 +186,7 @@ function callDirectiveService(handlerInput) {
       },
     };
     console.log("DIRECTIVE END", directive)
-    return directiveServiceClient.enqueue(directive);
+    return directiveServiceClient.enqueue(directive, endpoint, token);
   }
 
 /**
