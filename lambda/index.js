@@ -165,7 +165,7 @@ const ErrorHandler = {
     }
 };
 
-function callDirectiveService(handlerInput) {
+async function callDirectiveService(handlerInput) {
     const requestEnvelope = handlerInput.requestEnvelope;
     
     const requestId = requestEnvelope.request.requestId;
