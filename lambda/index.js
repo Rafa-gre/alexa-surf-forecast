@@ -189,7 +189,7 @@ async function callDirectiveService(handlerInput) {
     };
     console.log("DIRECTIVE END", directive)
     
-    const teste =  directiveServiceClient.enqueue(directive, endpoint, token);
+    const teste =  await directiveServiceClient.enqueue(directive, endpoint, token);
 console.log ("AQUI 3", teste)
     return teste
   }
