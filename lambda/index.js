@@ -27,21 +27,17 @@ const SurfForecastIntentHandler = {
             && Alexa.getIntentName(handlerInput.requestEnvelope) === 'SurfForecastIntent';
     },
     async handle(handlerInput) {
-        console.log("LOCAL", handlerInput.requestEnvelope.request.intent.slots['local'].value)
-
         const periodSlotValue = handlerInput.requestEnvelope.request.intent.slots['period'].value || 'Hoje';
         const localSlotValue = handlerInput.requestEnvelope.request.intent.slots['local'].value
         
         try {
-            console.log("AQUI 1")
             await callDirectiveService(handlerInput);
           } catch (err) {
             console.log("error : " + err);
-          }
-
+        }
         try {
             let speech 
-console.log("AQUI 4")
+
             if (periodSlotValue === 'esta semana' || periodSlotValue === 'semana que vem') {
                 speech = await generateForecastSpeech(periodSlotValue, localSlotValue, 'daily');
             } else {
@@ -123,15 +119,10 @@ const SessionEndedRequestHandler = {
     },
     handle(handlerInput) {
         console.log(`~~~~ Session ended: ${JSON.stringify(handlerInput.requestEnvelope)}`);
-        // Any cleanup logic goes here.
-        return handlerInput.responseBuilder.getResponse(); // notice we send an empty response
+        return handlerInput.responseBuilder.getResponse(); 
     }
 };
-/* *
- * The intent reflector is used for interaction model testing and debugging.
- * It will simply repeat the intent the user said. You can create custom handlers for your intents 
- * by defining them above, then also adding them to the request handler chain below 
- * */
+
 const IntentReflectorHandler = {
     canHandle(handlerInput) {
         return Alexa.getRequestType(handlerInput.requestEnvelope) === 'IntentRequest';
@@ -142,7 +133,6 @@ const IntentReflectorHandler = {
 
         return handlerInput.responseBuilder
             .speak(speakOutput)
-            //.reprompt('add a reprompt if you want to keep the session open for the user to respond')
             .getResponse();
     }
 };
@@ -167,15 +157,11 @@ const ErrorHandler = {
 };
 
 async function callDirectiveService(handlerInput) {
-    console.log("AQUI 2")
     const requestEnvelope = handlerInput.requestEnvelope;
     
     const requestId = requestEnvelope.request.requestId;
     const token = requestEnvelope.context.System.apiAccessToken
     const endpoint = requestEnvelope.context.System.apiEndpoint
-    console.log("TOKEN", token)
-    console.log("ENDPOINT", endpoint)
-    console.log("REQUEST ID", requestId)
     const directiveServiceClient = handlerInput.serviceClientFactory.getDirectiveServiceClient();
   
     const directive = {
@@ -187,11 +173,8 @@ async function callDirectiveService(handlerInput) {
         speech: "Fala Surfer, Estou checando a previsão, Aguarde...",
       },
     };
-    console.log("DIRECTIVE END", directive)
     
-    const teste =  await directiveServiceClient.enqueue(directive, endpoint, token);
-console.log ("AQUI 3", teste)
-    return teste
+    return await directiveServiceClient.enqueue(directive, endpoint, token);
   }
 
 /**
