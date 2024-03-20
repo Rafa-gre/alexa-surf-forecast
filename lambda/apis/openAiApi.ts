@@ -12,13 +12,11 @@ const openai = new OpenAI({apiKey, organization: orgId});
 
 
 export async function openAiApi(content: string): Promise<string | null> {
-const today = new Date().toISOString()
-const todayLocale = new Date().toLocaleString('pt-BR', { timeZone: 'America/Sao_Paulo' });
-console.log("TODAY", today)
-console.log("TODAY LOCALE", todayLocale)
+  const today = new Date().toLocaleString('pt-BR', { timeZone: 'America/Sao_Paulo' });
+
   const prompt = `
   Gere uma previsão de surf personalizada com base nos dados fornecidos de no máximo 3000 tokens.
-  Mencione o período da previsão (hoje, amanhã, fim de semana, esta semana, semana que vem) sendo hoje = ${new Date().toISOString()}.
+  Mencione o período da previsão (hoje, amanhã, fim de semana, esta semana, semana que vem) sendo hoje = ${today}.
   Caso os dados forem referentes a mais de um dia, divida a previsão por dias.
   Os dados de previsão do vento são dados em nós (knots).
   Se os dados fornecidos forem referentes a somente um dia, divida a previsão pelos turnos da manhã e tarde.

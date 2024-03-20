@@ -1,4 +1,5 @@
-import { addDays, startOfWeek, endOfWeek, subHours, nextSaturday, nextSunday } from 'date-fns';
+import { addDays, startOfWeek, endOfWeek, nextSaturday, nextSunday } from 'date-fns';
+import { utcToZonedTime } from 'date-fns-tz';
 
 interface DateRange {
   start: Date;
@@ -14,7 +15,13 @@ const dateRanges: Record<string, (today: Date) => DateRange> = {
 };
 
 export function calculateDateRange(period: string): DateRange {
-  const today =  subHours(new Date(), 3) //timezone ;
+  const today1 =  new Date().toLocaleString('pt-BR', { timeZone: 'America/Sao_Paulo' });
+
+  const saoPauloTz = 'America/Sao_Paulo';
+const nowUTC = new Date();
+const today = utcToZonedTime(nowUTC, saoPauloTz);
+
+console.log("TODAY Date",today);
 
   const lowerCasePeriod = period.toLowerCase();
 
