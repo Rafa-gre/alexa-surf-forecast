@@ -13,7 +13,7 @@ export async function generateForecastSpeech(period: string, local: string, peri
     const forecastData = await getForecastData(latitude, longitude, dateRange, periodicity);
     
     const speech = await openAiApi(JSON.stringify(forecastData));
-
+console.log("AQUI 5")
     return speech
   }catch(error:any){
 throw new Error(error)

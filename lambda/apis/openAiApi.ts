@@ -1,5 +1,4 @@
 import OpenAI from "openai";
-import * as tiktoken from 'tiktoken';
 import dotenv from 'dotenv';
 dotenv.config();
 

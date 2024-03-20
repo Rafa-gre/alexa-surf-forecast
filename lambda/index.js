@@ -33,6 +33,7 @@ const SurfForecastIntentHandler = {
         const localSlotValue = handlerInput.requestEnvelope.request.intent.slots['local'].value
         
         try {
+            console.log("AQUI 1")
             await callDirectiveService(handlerInput);
           } catch (err) {
             console.log("error : " + err);
@@ -40,7 +41,7 @@ const SurfForecastIntentHandler = {
 
         try {
             let speech 
-
+console.log("AQUI 4")
             if (periodSlotValue === 'esta semana' || periodSlotValue === 'semana que vem') {
                 speech = await generateForecastSpeech(periodSlotValue, localSlotValue, 'daily');
             } else {
@@ -166,6 +167,7 @@ const ErrorHandler = {
 };
 
 async function callDirectiveService(handlerInput) {
+    console.log("AQUI 2")
     const requestEnvelope = handlerInput.requestEnvelope;
     
     const requestId = requestEnvelope.request.requestId;
@@ -186,7 +188,10 @@ async function callDirectiveService(handlerInput) {
       },
     };
     console.log("DIRECTIVE END", directive)
-    return directiveServiceClient.enqueue(directive, endpoint, token);
+    
+    const teste =  directiveServiceClient.enqueue(directive, endpoint, token);
+console.log ("AQUI 3", teste)
+    return teste
   }
 
 /**
