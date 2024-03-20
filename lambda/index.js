@@ -43,7 +43,6 @@ const SurfForecastIntentHandler = {
             } else {
                 speech = await generateForecastSpeech(periodSlotValue, localSlotValue, 'hourly');
             }
-            console.log("SPEECH",speech)
             return handlerInput.responseBuilder
                 .speak(speech)
                 .getResponse();

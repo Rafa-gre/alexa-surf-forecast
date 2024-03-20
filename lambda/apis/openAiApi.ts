@@ -13,7 +13,7 @@ const openai = new OpenAI({apiKey, organization: orgId});
 
 export async function openAiApi(content: string): Promise<string | null> {
 const today = new Date().toISOString()
-const todayLocale = new Date().toLocaleDateString('pt-BR', { timeZone: 'America/Sao_Paulo' });
+const todayLocale = new Date().toLocaleString('pt-BR', { timeZone: 'America/Sao_Paulo' });
 console.log("TODAY", today)
 console.log("TODAY LOCALE", todayLocale)
   const prompt = `
