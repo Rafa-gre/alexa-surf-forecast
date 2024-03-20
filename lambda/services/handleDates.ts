@@ -15,14 +15,10 @@ const dateRanges: Record<string, (today: Date) => DateRange> = {
 };
 
 export function calculateDateRange(period: string): DateRange {
-  const today1 =  new Date().toLocaleString('pt-BR', { timeZone: 'America/Sao_Paulo' });
 
   const saoPauloTz = 'America/Sao_Paulo';
-const nowUTC = new Date();
-const today = utcToZonedTime(nowUTC, saoPauloTz);
-
-console.log("TODAY Date",today);
-
+  const nowUTC = new Date();
+  const today = utcToZonedTime(nowUTC, saoPauloTz);
   const lowerCasePeriod = period.toLowerCase();
 
   if (dateRanges.hasOwnProperty(lowerCasePeriod)) {
