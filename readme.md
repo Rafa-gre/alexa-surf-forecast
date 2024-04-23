@@ -4,7 +4,10 @@
 
 ## Descrição
 
-A "Surf Forecast Alexa Skill" é uma skill para dispositivos Alexa que fornece informações sobre a previsão de ondas em diferentes locais. Os usuários podem obter detalhes sobre as condições do mar para hoje, amanhã, esta semana ou a próxima semana, simplesmente fazendo perguntas à Alexa.
+A [Surf Forecast Alexa Skill](https://www.amazon.com.br/dp/B0CTTQ652K/) é uma skill para dispositivos Alexa que fornece informações sobre a previsão de ondas em diferentes locais do Brasil.
+Os usuários podem obter detalhes sobre as condições do mar para hoje, amanhã, esta semana ou a próxima semana, simplesmente fazendo perguntas à Alexa.
+
+
 
 ## Funcionalidades
 
