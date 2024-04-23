@@ -8,7 +8,7 @@
     "build": "npx tsc",
     "deploy": "npx serverless deploy",
     "deploy-dev": "npm run build && serverless deploy",
-    "invoke:local": " npx serverless invoke local -f surfForecastSkill -p"
+    "invoke:local": " npx serverless invoke local -f surfForecastSkill -p test/teste_esta_semana.json"
   },
   "author": "Amazon Alexa",
   "license": "Apache License",

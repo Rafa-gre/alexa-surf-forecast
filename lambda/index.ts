@@ -4,15 +4,13 @@
  * session persistence, api calls, and more.
  * */
 import { getRequestType, getIntentName, SkillBuilders, DefaultApiClient } from 'ask-sdk';
-import { generateForecastSpeech } from './services/generateForecastSpeech'
- 
-
+import { generateForecastSpeech } from './services/generateForecastSpeech.ts';
 
 const LaunchRequestHandler = {
-    canHandle(handlerInput) {
+    canHandle(handlerInput:any) {
         return getRequestType(handlerInput.requestEnvelope) === 'LaunchRequest';
     },
-    handle(handlerInput) {
+    handle(handlerInput:any) {
         const speakOutput = "E aí surfista! Bem-vindo à Previsão de Ondas. Quer saber como estão as ondas? Pergunte-me sobre o período e local, como 'Como estão as ondas amanhã em Maresias?'";
 
         return handlerInput.responseBuilder
@@ -23,11 +21,11 @@ const LaunchRequestHandler = {
 };
 
 const SurfForecastIntentHandler = {
-    canHandle(handlerInput) {
+    canHandle(handlerInput:any) {
         return getRequestType(handlerInput.requestEnvelope) === 'IntentRequest'
             && getIntentName(handlerInput.requestEnvelope) === 'SurfForecastIntent';
     },
-    async handle(handlerInput) {
+    async handle(handlerInput:any) {
         const periodSlotValue = handlerInput.requestEnvelope.request.intent.slots['period'].value || 'Hoje';
         const localSlotValue = handlerInput.requestEnvelope.request.intent.slots['local'].value
         
@@ -57,11 +55,11 @@ const SurfForecastIntentHandler = {
 };
 
 const HelpIntentHandler = {
-    canHandle(handlerInput) {
+    canHandle(handlerInput:any) {
         return getRequestType(handlerInput.requestEnvelope) === 'IntentRequest'
             && getIntentName(handlerInput.requestEnvelope) === 'AMAZON.HelpIntent';
     },
-    handle(handlerInput) {
+    handle(handlerInput:any) {
         const speakOutput = "Claro, surfista! Aqui estão algumas coisas que você pode perguntar:\n\n" +
         " - 'Como estão as ondas amanhã em Maresias?'\n" +
         " - 'Qual a previsão do surf no fim de semana em Itamambuca?'\n" +
@@ -76,12 +74,12 @@ const HelpIntentHandler = {
 };
 
 const CancelAndStopIntentHandler = {
-    canHandle(handlerInput) {
+    canHandle(handlerInput:any) {
         return getRequestType(handlerInput.requestEnvelope) === 'IntentRequest'
             && (getIntentName(handlerInput.requestEnvelope) === 'AMAZON.CancelIntent'
                 || getIntentName(handlerInput.requestEnvelope) === 'AMAZON.StopIntent');
     },
-    handle(handlerInput) {
+    handle(handlerInput:any) {
         const speakOutput = "Valeu, brou! Se precisar de mais informações sobre as ondas, é só perguntar. Até mais e boas ondas!";
 
         return handlerInput.responseBuilder
@@ -95,11 +93,11 @@ const CancelAndStopIntentHandler = {
  * This handler can be safely added but will be ingnored in locales that do not support it yet 
  * */
 const FallbackIntentHandler = {
-    canHandle(handlerInput) {
+    canHandle(handlerInput:any) {
         return getRequestType(handlerInput.requestEnvelope) === 'IntentRequest'
             && getIntentName(handlerInput.requestEnvelope) === 'AMAZON.FallbackIntent';
     },
-    handle(handlerInput) {
+    handle(handlerInput:any) {
         const speakOutput = "Desculpe, não consegui entender completamente sua pergunta sobre as ondas. Que tal tentar novamente ou perguntar de uma maneira diferente? Estou aqui para ajudar você a pegar as melhores ondas!";
 
         return handlerInput.responseBuilder
@@ -114,20 +112,20 @@ const FallbackIntentHandler = {
  * respond or says something that does not match an intent defined in your voice model. 3) An error occurs 
  * */
 const SessionEndedRequestHandler = {
-    canHandle(handlerInput) {
+    canHandle(handlerInput:any) {
         return getRequestType(handlerInput.requestEnvelope) === 'SessionEndedRequest';
     },
-    handle(handlerInput) {
+    handle(handlerInput:any) {
         console.log(`~~~~ Session ended: ${JSON.stringify(handlerInput.requestEnvelope)}`);
         return handlerInput.responseBuilder.getResponse(); 
     }
 };
 
 const IntentReflectorHandler = {
-    canHandle(handlerInput) {
+    canHandle(handlerInput:any) {
         return getRequestType(handlerInput.requestEnvelope) === 'IntentRequest';
     },
-    handle(handlerInput) {
+    handle(handlerInput:any) {
         const intentName = getIntentName(handlerInput.requestEnvelope);
         const speakOutput = `You just triggered ${intentName}`;
 
@@ -145,7 +143,7 @@ const ErrorHandler = {
     canHandle() {
         return true;
     },
-    handle(handlerInput, error) {
+    handle(handlerInput:any, error: Error) {
         const speakOutput = 'Xiiii, deu ruim. Tente novamente!';
         console.log(`~~~~ Error handled: ${JSON.stringify(error)}`);
 
@@ -156,7 +154,7 @@ const ErrorHandler = {
     }
 };
 
-async function callDirectiveService(handlerInput) {
+async function callDirectiveService(handlerInput:any) {
     const requestEnvelope = handlerInput.requestEnvelope;
     
     const requestId = requestEnvelope.request.requestId;
