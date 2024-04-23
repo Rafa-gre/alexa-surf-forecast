@@ -4,7 +4,8 @@
  * session persistence, api calls, and more.
  * */
 import { getRequestType, getIntentName, SkillBuilders, DefaultApiClient } from 'ask-sdk';
-import { generateForecastSpeech } from './services/generateForecastSpeech.ts';
+import { generateForecastSpeech } from './services/generateForecastSpeech'
+ 
 
 
 const LaunchRequestHandler = {
