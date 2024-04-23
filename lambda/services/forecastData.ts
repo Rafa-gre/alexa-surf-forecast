@@ -1,6 +1,6 @@
 import { format } from "date-fns";
-import { WavesData, getWavesData } from "../apis/wavesApi";
-import { Periodicity, TimeInterval, WeatherData, getWeatherData } from "../apis/weatherApi";
+import { WavesData, getWavesData } from "../apis/wavesApi.ts";
+import { Periodicity, TimeInterval, WeatherData, getWeatherData } from "../apis/weatherApi.ts";
 import { ptBR } from "date-fns/locale";
 import { utcToZonedTime } from "date-fns-tz";
 

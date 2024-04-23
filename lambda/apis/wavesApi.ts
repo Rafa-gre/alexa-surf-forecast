@@ -1,5 +1,5 @@
 import { fetchWeatherApi } from 'openmeteo';
-import { Periodicity, TimeInterval } from './weatherApi';
+import { Periodicity, TimeInterval } from './weatherApi.ts';
 
 
 export interface WavesData {

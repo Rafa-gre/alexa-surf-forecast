@@ -1,8 +1,8 @@
-import { getCoordinates } from "../apis/geocodingApi";
-import { openAiApi } from "../apis/openAiApi";
-import { Periodicity } from "../apis/weatherApi";
-import { getForecastData } from "./forecastData";
-import { calculateDateRange } from "./handleDates";
+import { getCoordinates } from "../apis/geocodingApi.ts";
+import { openAiApi } from "../apis/openAiApi.ts";
+import { Periodicity } from "../apis/weatherApi.ts";
+import { getForecastData } from "./forecastData.ts";
+import { calculateDateRange } from "./handleDates.ts";
 
 
 export async function generateForecastSpeech(period: string, local: string, periodicity: Periodicity): Promise<string | null> {
