@@ -3,13 +3,13 @@
  * Please visit https://alexa.design/cookbook for additional examples on implementing slots, dialog management,
  * session persistence, api calls, and more.
  * */
-const Alexa = require('ask-sdk');
-const { generateForecastSpeech } = require('./dist/services/generateForecastSpeech');
+import { getRequestType, getIntentName, SkillBuilders, DefaultApiClient } from 'ask-sdk';
+import { generateForecastSpeech } from './dist/services/generateForecastSpeech';
 
 
 const LaunchRequestHandler = {
     canHandle(handlerInput) {
-        return Alexa.getRequestType(handlerInput.requestEnvelope) === 'LaunchRequest';
+        return getRequestType(handlerInput.requestEnvelope) === 'LaunchRequest';
     },
     handle(handlerInput) {
         const speakOutput = "E aí surfista! Bem-vindo à Previsão de Ondas. Quer saber como estão as ondas? Pergunte-me sobre o período e local, como 'Como estão as ondas amanhã em Maresias?'";
@@ -23,8 +23,8 @@ const LaunchRequestHandler = {
 
 const SurfForecastIntentHandler = {
     canHandle(handlerInput) {
-        return Alexa.getRequestType(handlerInput.requestEnvelope) === 'IntentRequest'
-            && Alexa.getIntentName(handlerInput.requestEnvelope) === 'SurfForecastIntent';
+        return getRequestType(handlerInput.requestEnvelope) === 'IntentRequest'
+            && getIntentName(handlerInput.requestEnvelope) === 'SurfForecastIntent';
     },
     async handle(handlerInput) {
         const periodSlotValue = handlerInput.requestEnvelope.request.intent.slots['period'].value || 'Hoje';
@@ -57,8 +57,8 @@ const SurfForecastIntentHandler = {
 
 const HelpIntentHandler = {
     canHandle(handlerInput) {
-        return Alexa.getRequestType(handlerInput.requestEnvelope) === 'IntentRequest'
-            && Alexa.getIntentName(handlerInput.requestEnvelope) === 'AMAZON.HelpIntent';
+        return getRequestType(handlerInput.requestEnvelope) === 'IntentRequest'
+            && getIntentName(handlerInput.requestEnvelope) === 'AMAZON.HelpIntent';
     },
     handle(handlerInput) {
         const speakOutput = "Claro, surfista! Aqui estão algumas coisas que você pode perguntar:\n\n" +
@@ -76,9 +76,9 @@ const HelpIntentHandler = {
 
 const CancelAndStopIntentHandler = {
     canHandle(handlerInput) {
-        return Alexa.getRequestType(handlerInput.requestEnvelope) === 'IntentRequest'
-            && (Alexa.getIntentName(handlerInput.requestEnvelope) === 'AMAZON.CancelIntent'
-                || Alexa.getIntentName(handlerInput.requestEnvelope) === 'AMAZON.StopIntent');
+        return getRequestType(handlerInput.requestEnvelope) === 'IntentRequest'
+            && (getIntentName(handlerInput.requestEnvelope) === 'AMAZON.CancelIntent'
+                || getIntentName(handlerInput.requestEnvelope) === 'AMAZON.StopIntent');
     },
     handle(handlerInput) {
         const speakOutput = "Valeu, brou! Se precisar de mais informações sobre as ondas, é só perguntar. Até mais e boas ondas!";
@@ -95,8 +95,8 @@ const CancelAndStopIntentHandler = {
  * */
 const FallbackIntentHandler = {
     canHandle(handlerInput) {
-        return Alexa.getRequestType(handlerInput.requestEnvelope) === 'IntentRequest'
-            && Alexa.getIntentName(handlerInput.requestEnvelope) === 'AMAZON.FallbackIntent';
+        return getRequestType(handlerInput.requestEnvelope) === 'IntentRequest'
+            && getIntentName(handlerInput.requestEnvelope) === 'AMAZON.FallbackIntent';
     },
     handle(handlerInput) {
         const speakOutput = "Desculpe, não consegui entender completamente sua pergunta sobre as ondas. Que tal tentar novamente ou perguntar de uma maneira diferente? Estou aqui para ajudar você a pegar as melhores ondas!";
@@ -114,7 +114,7 @@ const FallbackIntentHandler = {
  * */
 const SessionEndedRequestHandler = {
     canHandle(handlerInput) {
-        return Alexa.getRequestType(handlerInput.requestEnvelope) === 'SessionEndedRequest';
+        return getRequestType(handlerInput.requestEnvelope) === 'SessionEndedRequest';
     },
     handle(handlerInput) {
         console.log(`~~~~ Session ended: ${JSON.stringify(handlerInput.requestEnvelope)}`);
@@ -124,10 +124,10 @@ const SessionEndedRequestHandler = {
 
 const IntentReflectorHandler = {
     canHandle(handlerInput) {
-        return Alexa.getRequestType(handlerInput.requestEnvelope) === 'IntentRequest';
+        return getRequestType(handlerInput.requestEnvelope) === 'IntentRequest';
     },
     handle(handlerInput) {
-        const intentName = Alexa.getIntentName(handlerInput.requestEnvelope);
+        const intentName = getIntentName(handlerInput.requestEnvelope);
         const speakOutput = `You just triggered ${intentName}`;
 
         return handlerInput.responseBuilder
@@ -176,12 +176,7 @@ async function callDirectiveService(handlerInput) {
     return await directiveServiceClient.enqueue(directive, endpoint, token);
   }
 
-/**
- * This handler acts as the entry point for your skill, routing all request and response
- * payloads to the handlers above. Make sure any new handlers or interceptors you've
- * defined are included below. The order matters - they're processed top to bottom 
- * */
-exports.handler = Alexa.SkillBuilders.custom()
+export const handler = SkillBuilders.custom()
     .addRequestHandlers(
         LaunchRequestHandler,
         SurfForecastIntentHandler,
@@ -192,6 +187,6 @@ exports.handler = Alexa.SkillBuilders.custom()
         IntentReflectorHandler)
     .addErrorHandlers(
         ErrorHandler)
-    .withApiClient(new Alexa.DefaultApiClient())
+    .withApiClient(new DefaultApiClient())
     .withCustomUserAgent('sample/hello-world/v1.2')
     .lambda();
